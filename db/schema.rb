@@ -11,9 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20150913222753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "documents", force: :cascade do |t|
+    t.string "title"
+    t.text   "body"
+  end
+
+  create_table "keyword_taggings", force: :cascade do |t|
+    t.float "relevance"
+  end
+
+  create_table "keywords", force: :cascade do |t|
+    t.string "text"
+  end
 
 end
