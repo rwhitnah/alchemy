@@ -5,5 +5,7 @@ class Document < ActiveRecord::Base
   # Body: Text body of document
 
   validates_presence_of :name, :body
-  
+
+  has_many :keyword_taggings
+  has_many :keywords, through: :keyword_taggings
 end
