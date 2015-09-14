@@ -75,10 +75,10 @@ class SearchService
   def search_keywords
     results = []
     @query_keywords.each do |q|
-      keywords = Keyword.where(text: q[:text])
+      keywords = Keyword.where(text: q[:text].downcase)
       # Multiply relevances together to approximate query relevance to document
       keywords.each do |k|
-        k.keyword_taggings_taggings.each do |t|
+        k.keyword_taggings.each do |t|
           results << {keyword_id: k.id, document_id: t.document_id, relevance: (q[:relevance]*t.relevance)}
         end
       end
@@ -90,7 +90,7 @@ class SearchService
   def search_concepts
     results = []
     @query_concepts.each do |c|
-      concepts = Concept.where(text: c[:text])
+      concepts = Concept.where(text: c[:text].downcase)
       # Multiply relevances together to approximate query relevance to document
       concepts.each do |k|
         k.concept_taggings.each do |t|
@@ -105,7 +105,7 @@ class SearchService
   def search_entities
     results = []
     @query_entities.each do |q|
-      entities = Entity.where(text: q[:text]).where(entity_type: q[:entity_type])
+      entities = Entity.where(text: q[:text].downcase).where(entity_type: q[:entity_type].downcase)
       # Multiply relevances together to approximate query relevance to document
       entities.each do |e|
         e.entity_taggings.each do |t|

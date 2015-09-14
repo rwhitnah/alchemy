@@ -14,7 +14,7 @@ class TaggingService
       # If document has already been tagged (text changed/updated), clear out taggings for new copy
       @document.keyword_taggings.destroy_all
       @response['keywords'].each do |k|
-        keyword = Keyword.where(text: k['text']).first_or_create
+        keyword = Keyword.where(text: k['text'].downcase).first_or_create
         KeywordTagging.create(relevance: k['relevance'].to_f, keyword: keyword, document: @document)
       end
     else
@@ -31,7 +31,7 @@ class TaggingService
       # If document has already been tagged (text changed/updated), clear out taggings for new copy
       @document.concept_taggings.destroy_all
       @response['concepts'].each do |k|
-        concept = Concept.where(text: k['text']).first_or_create
+        concept = Concept.where(text: k['text'].downcase).first_or_create
         ConceptTagging.create(relevance: k['relevance'].to_f, concept: concept, document: @document)
       end
     else
@@ -49,7 +49,7 @@ class TaggingService
       # If document has already been tagged (text changed/updated), clear out taggings for new copy
       @document.entity_taggings.destroy_all
       @response['entities'].each do |k|
-        entity = Entity.where(text: k['text']).where(entity_type: k['type']).first_or_create
+        entity = Entity.where(text: k['text'].downcase).where(entity_type: k['type'].downcase).first_or_create
         EntityTagging.create(relevance: k['relevance'].to_f, entity: entity, document: @document)
       end
     else
