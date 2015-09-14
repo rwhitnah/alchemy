@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150913223118) do
+ActiveRecord::Schema.define(version: 20150914190136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "concept_taggings", force: :cascade do |t|
+    t.float   "relevance"
+    t.integer "concept_id"
+    t.integer "document_id"
+  end
+
+  add_index "concept_taggings", ["concept_id"], name: "index_concept_taggings_on_concept_id", using: :btree
+  add_index "concept_taggings", ["document_id"], name: "index_concept_taggings_on_document_id", using: :btree
+
+  create_table "concepts", force: :cascade do |t|
+    t.string "text"
+  end
 
   create_table "documents", force: :cascade do |t|
     t.string "title"
@@ -34,6 +47,8 @@ ActiveRecord::Schema.define(version: 20150913223118) do
     t.string "text"
   end
 
+  add_foreign_key "concept_taggings", "concepts"
+  add_foreign_key "concept_taggings", "documents"
   add_foreign_key "keyword_taggings", "documents"
   add_foreign_key "keyword_taggings", "keywords"
 end

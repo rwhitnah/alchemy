@@ -7,6 +7,7 @@
       %td Title
       %td Body Text
       %td Tag List
+      %td Concept List
   %tbody
     - @documents.each do |document|
       %tr
@@ -16,3 +17,7 @@
         %td
           - document.keywords.each do |k|
             = link_to k.text, keyword_path(k)
+        %td
+          %ul
+            - document.concepts.each do |c|
+              %li= c.text

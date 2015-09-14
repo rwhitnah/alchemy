@@ -21,4 +21,21 @@ class TaggingService
       raise ActiveRecord::StatementInvalid
     end
   end
+
+  def tag_concepts
+    # Concept query on AlchemyAPI.
+    @response = AlchemyClient.client.concepts('text', @document.body)
+
+    # TODO: response.success?
+    if @response['status'] == 'OK'
+      # If document has already been tagged (text changed/updated), clear out taggings for new copy
+      @document.concept_taggings.destroy_all
+      @response['concepts'].each do |k|
+        concept = Concept.where(text: k['text']).first_or_create
+        ConceptTagging.create(relevance: k['relevance'].to_f, concept: concept, document: @document)
+      end
+    else
+      raise ActiveRecord::StatementInvalid
+    end
+  end
 end
