@@ -7,18 +7,28 @@ class DocumentsController < ApplicationController
     @document = Document.find(params[:id])
   end
 
-  # def edit
-  #   @document = Document.find(params[:id])
-  # end
+  def edit
+    @document = Document.find(params[:id])
+  end
 
-  # def update
+  def new
+    @document = Document.new
+  end
 
-  # end
+  def create
+    @document = Document.create(document_params)
+    render 'show'
+  end
 
-  # def new
-  #   @document = Document.new
-  # end
+  def update
+    @document = Document.find(params[:id])
+    @document.update(document_params)
+    render 'show'
+  end
 
-  # def create
-  # end
+  private
+
+  def document_params
+    params.require(:document).permit(:id, :title, :body)
+  end
 end
