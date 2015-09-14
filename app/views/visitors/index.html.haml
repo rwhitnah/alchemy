@@ -1,0 +1,19 @@
+%h3 Document Query
+
+- if @query.present? && @documents.present?
+  %h5= "Your query for #{@query} returned #{@documents.count} results:"
+  %table
+    %thead
+      %tr
+        %th
+          Document ID
+        %th
+          Document Title
+        %th
+          Document Body
+    %tbody
+      - @documents.each do |document|
+        %tr
+          %td= document.id
+          %td= link_to document.title, document_path(document)
+          %td= document.body.truncate(150)
