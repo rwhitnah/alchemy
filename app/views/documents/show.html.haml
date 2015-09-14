@@ -4,6 +4,6 @@
 %h5 Keywords:
 %ul
   - @document.keywords.each do |k|
-    %li= k.text
+    %li= link_to k.text, keyword_path(k)
 
 %pre= @document.body

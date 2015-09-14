@@ -1,0 +1,17 @@
+%table
+  %thead
+    %tr
+      %td ID
+      %td Text
+      %td Document List
+  %tbody
+    - @keywords.each do |keyword|
+      %tr
+        %td= keyword.id
+        %td= link_to keyword.text, keyword_path(keyword)
+        %td
+          %ul
+            - keyword.documents.each do |d|
+              %li
+                =link_to d.title, document_path(d)
+

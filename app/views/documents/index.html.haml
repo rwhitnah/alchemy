@@ -13,4 +13,4 @@
         %td= document.body.truncate(150)
         %td
           - document.keywords.each do |k|
-            = k.text
+            = link_to k.text, keyword_path(k)

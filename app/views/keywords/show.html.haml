@@ -1,0 +1,8 @@
+%h3= @keyword.text
+%span= "ID: #{@keyword.id}"
+
+%h5 Documents:
+%ul
+  - @keyword.documents.each do |d|
+    %li
+      = link_to d.title, document_path(d)
