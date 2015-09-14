@@ -38,4 +38,22 @@ class TaggingService
       raise ActiveRecord::StatementInvalid
     end
   end
+
+  def tag_entities
+    # Concept query on AlchemyAPI.
+    # Sentiment analysis not used in current version, so is turned off.
+    @response = AlchemyClient.client.entities('text', @document.body, { 'sentiment'=>0 })
+
+    # TODO: response.success?
+    if @response['status'] == 'OK'
+      # If document has already been tagged (text changed/updated), clear out taggings for new copy
+      @document.entity_taggings.destroy_all
+      @response['entities'].each do |k|
+        entity = Entity.where(text: k['text']).where(entity_type: k['type']).first_or_create
+        EntityTagging.create(relevance: k['relevance'].to_f, entity: entity, document: @document)
+      end
+    else
+      raise ActiveRecord::StatementInvalid
+    end
+  end
 end

@@ -11,6 +11,9 @@ class Document < ActiveRecord::Base
   has_many :concept_taggings, dependent: :destroy
   has_many :concepts, through: :concept_taggings
 
+  has_many :entity_taggings, dependent: :destroy
+  has_many :entities, through: :entity_taggings
+
   after_create :tag_document
   after_update :tag_document, :if => :body_changed?
 
@@ -18,5 +21,6 @@ class Document < ActiveRecord::Base
     @tagger = TaggingService.new(self)
     @tagger.tag_keywords
     @tagger.tag_concepts
+    @tagger.tag_entities
   end
 end

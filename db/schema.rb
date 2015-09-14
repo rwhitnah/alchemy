@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914190136) do
+ActiveRecord::Schema.define(version: 20150914192547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,20 @@ ActiveRecord::Schema.define(version: 20150914190136) do
     t.text   "body"
   end
 
+  create_table "entities", force: :cascade do |t|
+    t.string "text"
+    t.string "entity_type"
+  end
+
+  create_table "entity_taggings", force: :cascade do |t|
+    t.float   "relevance"
+    t.integer "entity_id"
+    t.integer "document_id"
+  end
+
+  add_index "entity_taggings", ["document_id"], name: "index_entity_taggings_on_document_id", using: :btree
+  add_index "entity_taggings", ["entity_id"], name: "index_entity_taggings_on_entity_id", using: :btree
+
   create_table "keyword_taggings", force: :cascade do |t|
     t.float   "relevance"
     t.integer "keyword_id"
@@ -49,6 +63,8 @@ ActiveRecord::Schema.define(version: 20150914190136) do
 
   add_foreign_key "concept_taggings", "concepts"
   add_foreign_key "concept_taggings", "documents"
+  add_foreign_key "entity_taggings", "documents"
+  add_foreign_key "entity_taggings", "entities"
   add_foreign_key "keyword_taggings", "documents"
   add_foreign_key "keyword_taggings", "keywords"
 end

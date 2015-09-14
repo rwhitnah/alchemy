@@ -8,6 +8,7 @@
       %td Body Text
       %td Tag List
       %td Concept List
+      %td Entity List
   %tbody
     - @documents.each do |document|
       %tr
@@ -21,3 +22,7 @@
           %ul
             - document.concepts.each do |c|
               %li= c.text
+        %td
+          %ul
+            - document.entities.each do |e|
+              %li= "#{e.entity_type}: #{e.text}"
