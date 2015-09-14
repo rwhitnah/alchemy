@@ -1,4 +1,9 @@
 %h3 Document Query
+= form_tag(root_path, :method => "get", class: "navbar-form", id: "search-form") do
+  .input-append
+    = text_field_tag :query, params[:query], class: "span2", placeholder: "Search Documents"
+    %button.btn{type: "submit"}
+      %i.icon-search
 
 - if @query.present? && @documents.present?
   %h5= "Your query for #{@query} returned #{@documents.count} results:"
