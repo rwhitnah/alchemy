@@ -7,4 +7,12 @@ class Document < ActiveRecord::Base
 
   has_many :keyword_taggings
   has_many :keywords, through: :keyword_taggings
+
+  after_create :tag_document
+  after_update :tag_document, :if => :body_changed?
+
+  def tag_document
+    @tagger = TaggingService.new(self)
+    @tagger.tag_keywords
+  end
 end
