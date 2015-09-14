@@ -4,6 +4,9 @@ class TaggingService
   end
 
   def tag_keywords
+    # Keyword query on AlchemyAPI.
+    # 'Strict' mode theoretically gives more specific keywords.
+    # Sentiment analysis not used in current version, so is turned off.
     @response = AlchemyClient.client.keywords('text', @document.body, { 'keywordExtractMode'=>'strict', 'sentiment'=>0 })
 
     # TODO: response.success?

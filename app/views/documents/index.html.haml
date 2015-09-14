@@ -1,0 +1,16 @@
+%table
+  %thead
+    %tr
+      %td ID
+      %td Title
+      %td Body Text
+      %td Tag List
+  %tbody
+    - @documents.each do |document|
+      %tr
+        %td= document.id
+        %td= link_to document.title, document_path(document)
+        %td= document.body.truncate(150)
+        %td
+          - document.keywords.each do |k|
+            = k.text

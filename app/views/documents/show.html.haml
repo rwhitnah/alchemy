@@ -1,0 +1,9 @@
+%h3= @document.title
+%span= "ID: #{@document.id}"
+
+%h5 Keywords:
+%ul
+  - @document.keywords.each do |k|
+    %li= k.text
+
+%pre= @document.body
